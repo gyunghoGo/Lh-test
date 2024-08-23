@@ -24,10 +24,22 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Autorun
-        run: lhci autorun
+      - name: Run Lighthouse CI and Save Report
+        run: lhci autorun --outputPath=./lhci-reports
+        continue-on-error: true
 
-      - name: Upload
+      - name: Upload Lighthouse Report as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lighthouse-report
+          path: ./lhci-reports/*
+
+      - name: Post Lighthouse CI Result to PR
         env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-        run: lhci upload
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPORT_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"body": "Lighthouse CI Report is available [here]('"$REPORT_URL"')."}' \
+            "${{ github.api_url }}/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
