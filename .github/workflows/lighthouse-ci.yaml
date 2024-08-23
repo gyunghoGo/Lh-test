@@ -18,28 +18,35 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Packages
-        run: npm install && npm install -g @lhci/cli@0.14.x
+      - name: Yarn install
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn --frozen-lockfile
+
+      - name: Add sharp
+        run: yarn add sharp
 
       - name: Build
-        run: yarn build
+        run: yarn build:lighthouse
 
-      - name: Run Lighthouse CI and Save Report
-        run: lhci autorun --outputPath=./lhci-reports
-        continue-on-error: true
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      - name: Upload Lighthouse Report as Artifact
-        uses: actions/upload-artifact@v2
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
         with:
-          name: lighthouse-report
-          path: ./lhci-reports/*
-
-      - name: Post Lighthouse CI Result to PR
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const createComments = require(process.cwd() + '/scripts/lighthouse.js');
+            core.setOutput('comments', createComments());
+      - name: comment PR
+        uses: unsplash/comment-on-pr@v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          REPORT_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"body": "Lighthouse CI Report is available [here]('"$REPORT_URL"')."}' \
-            "${{ github.api_url }}/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+        with:
+          msg: ${{ steps.format_lighthouse_score.outputs.comments}}
+          check_for_duplicate_msg: false
