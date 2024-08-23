@@ -2,7 +2,7 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: "./build",
-      // startServerCommand: "yarn dev",
+      startServerCommand: "yarn dev",
       url: ["http://localhost:5173"],
       collect: {
         numberOfRuns: 3,
