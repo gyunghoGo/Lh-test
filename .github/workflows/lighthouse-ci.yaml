@@ -1,25 +1,28 @@
-name: Run Lighthouse CI on Pull Request Merge
-
-on:
-  pull_request:
-    types: [closed]
-
+name: Run lighthouse CI When Push
+on: [push]
 jobs:
   lhci:
     name: Lighthouse CI
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Use Node.js 18
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 18
+          node-version: 16
 
-      - name: Install Dependencies
-        run: yarn install
+      - name: Install Packages
+        run: npm install && npm install -g @lhci/cli@0.8.x
 
-      - name: Run Lighthouse CI
-        run: lhci autorun
+      - name: Build
+        run: yarn build
+
+      - name: Collect
+        run: lhci collect
+
+      - name: Upload
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: lhci upload
