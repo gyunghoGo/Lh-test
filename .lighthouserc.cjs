@@ -6,15 +6,7 @@ module.exports = {
       numberOfRuns: 3, // 각 URL에 대해 테스트를 3회 수행
       settings: {
         preset: "desktop", // 데스크탑 환경 설정
-        emulatedUserAgent:
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4695.0 Safari/537.36 Chrome-Lighthouse", // 사용자 에이전트 설정
         formFactor: "desktop", // 폼 팩터를 데스크탑으로 설정
-        onlyCategories: [
-          "performance",
-          "accessibility",
-          "best-practices",
-          "seo",
-        ], // 필요한 카테고리만 포함
         screenEmulation: {
           deviceScaleFactor: 1,
           disabled: false,
@@ -25,7 +17,7 @@ module.exports = {
         skipAudits: [
           "uses-http2",
           "is-on-https",
-          "no-document-write", // 채널톡에서 사용하는 예외 항목
+          "no-document-write", // 이 감사는 제외하지만, assert에서 예상하지 않도록 조정 필요
           "color-contrast",
           "meta-viewport",
         ], // 특정 감사 제외
@@ -43,7 +35,6 @@ module.exports = {
       preset: "lighthouse:recommended", // 추천된 Lighthouse 설정 사용
       assertions: {
         "bf-cache": ["warn", { minScore: 0.5 }], // Back/Forward Cache 설정
-        "color-contrast": ["warn", { minScore: 0.5 }], // 색상 대비 기준 낮춤
         "meta-description": ["warn", { minScore: 0.5 }], // 메타 설명 기준 낮춤
         "robots-txt": ["warn", { minScore: 0.5 }], // robots.txt 기준 낮춤
         "unminified-javascript": ["warn", { maxLength: 10 }], // 미압축 JS 길이 기준 높임
@@ -51,6 +42,10 @@ module.exports = {
         "unused-javascript": ["warn", { maxLength: 5 }], // 사용되지 않은 JS 길이 기준 완화
         "uses-text-compression": ["warn", { maxLength: 10 }], // 텍스트 압축 사용 기준 완화
         "largest-contentful-paint": ["warn", { minScore: 0.8 }], // LCP 기준 완화
+        "no-document-write": "off", // 이 감사를 건너뛰도록 설정
+        "meta-viewport": "off", // 이 감사를 건너뛰도록 설정
+        "color-contrast": "off", // 이 감사를 건너뛰도록 설정
+        "is-on-https": "off", // 이 감사를 건너뛰도록 설정
       },
     },
     upload: {
