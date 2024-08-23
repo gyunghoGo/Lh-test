@@ -30,7 +30,7 @@ jobs:
 
       - name: run Lighthouse CI
         run: |
-          npm install -g @lhci/cli
+          npm install && npm install -g @lhci/cli@0.14.x
           lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const createComments = require(process.cwd() + '/scripts/lighthouse.js');
+            const createComments = require(process.cwd() + '/scripts/lighthouse.cjs');
             core.setOutput('comments', createComments());
       - name: comment PR
         uses: unsplash/comment-on-pr@v1.3.0
