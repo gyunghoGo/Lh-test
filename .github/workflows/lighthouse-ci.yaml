@@ -18,8 +18,16 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: yarn install
+      - name: Install Packages
+        run: npm install && npm install -g @lhci/cli@0.14.x
 
-      - name: Run Lighthouse CI
+      - name: Build
+        run: yarn build
+
+      - name: Autorun
         run: lhci autorun
+
+      - name: Upload
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: lhci upload
