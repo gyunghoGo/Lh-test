@@ -22,9 +22,6 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
 
-      - name: Add sharp
-        run: yarn add sharp
-
       - name: Build
         run: yarn build
 
@@ -35,18 +32,7 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      - name: Format lighthouse score
-        id: format_lighthouse_score
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const createComments = require(process.cwd() + '/scripts/lighthouse.cjs');
-            core.setOutput('comments', createComments());
-      - name: comment PR
-        uses: unsplash/comment-on-pr@v1.3.0
+      - name: Upload
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: ${{ steps.format_lighthouse_score.outputs.comments}}
-          check_for_duplicate_msg: false
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: lhci upload
