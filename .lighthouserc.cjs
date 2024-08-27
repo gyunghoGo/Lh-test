@@ -23,14 +23,14 @@ module.exports = {
           "color-contrast",
           "meta-viewport",
         ], // 특정 감사 제외
-        throttling: {
-          cpuSlowdownMultiplier: 1, // CPU 속도 저하 없음
-          downloadThroughputKbps: 0, // 다운로드 처리량 제한 없음
-          requestLatencyMs: 0, // 요청 지연 없음
-          rttMs: 40, // 왕복 시간 설정
-          throughputKbps: 10 * 1024, // 처리량 설정
-          uploadThroughputKbps: 0, // 업로드 처리량 제한 없음
-        }, // 스로틀링 설정
+        // throttling: {
+        //   cpuSlowdownMultiplier: 1, // CPU 속도 저하 없음
+        //   downloadThroughputKbps: 0, // 다운로드 처리량 제한 없음
+        //   requestLatencyMs: 0, // 요청 지연 없음
+        //   rttMs: 40, // 왕복 시간 설정
+        //   throughputKbps: 10 * 1024, // 처리량 설정
+        //   uploadThroughputKbps: 0, // 업로드 처리량 제한 없음
+        // }, // 스로틀링 설정
       },
     },
     assert: {
