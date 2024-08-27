@@ -1,6 +1,9 @@
 name: Run Lighthouse CI on Pull Request Merge
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize]
+
 jobs:
   lhci:
     name: Lighthouse CI
