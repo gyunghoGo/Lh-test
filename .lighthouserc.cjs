@@ -5,6 +5,7 @@ module.exports = {
       startServerCommand: "yarn dev", // 서버를 명시적으로 포트 3000에서 시작
 
       url: ["http://localhost:5173"], // 테스트할 URL
+
       numberOfRuns: 3, // 각 URL에 대해 테스트를 3회 수행
       settings: {
         preset: "desktop", // 데스크탑 환경 설정

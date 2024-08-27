@@ -1,8 +1,6 @@
 name: Run Lighthouse CI on Pull Request Merge
 
-on:
-  pull_request:
-    types: [opened, synchronize]
+on: [pull_request]
 
 jobs:
   lhci:
@@ -30,3 +28,6 @@ jobs:
           lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Run Lighthouse Report Script
+        run: node ./scripts/lighthouse.js
