@@ -2,7 +2,7 @@ module.exports = {
   ci: {
     collect: {
       // staticDistDir: "./dist", // 정적 파일 디렉토리 설정
-      startServerCommand: "yarn build && yarn dev", // 서버를 명시적으로 포트 3000에서 시작
+      startServerCommand: "yarn dev", // 서버를 명시적으로 포트 3000에서 시작
 
       url: ["http://localhost:5173"], // 테스트할 URL
       numberOfRuns: 3, // 각 URL에 대해 테스트를 3회 수행
