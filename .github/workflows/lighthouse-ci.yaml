@@ -19,8 +19,8 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
 
-      - name: Build
-        run: yarn build
+      # - name: Build
+      #   run: yarn build
 
       - name: run Lighthouse CI
         run: |
@@ -30,4 +30,4 @@ jobs:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
       - name: Run Lighthouse Report Script
-        run: node ./scripts/lighthouse.js
+        run: node ./scripts/lighthouse-report.js
