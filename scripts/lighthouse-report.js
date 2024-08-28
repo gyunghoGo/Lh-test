@@ -13,6 +13,7 @@ const calculateRoundedAverage = (value, count) => {
 
 // 성능 지표 목록
 const metrics = ["performance", "accessibility", "best-practices", "seo"];
+const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
 const pathAverages = Object.values(
   results.reduce((acc, report) => {
@@ -40,7 +41,8 @@ const pathAverages = Object.values(
 ).map(({ url, averages, count }) => ({
   url,
   averages: metrics.reduce((obj, metric) => {
-    obj[metric] = calculateRoundedAverage(averages[metric], count);
+    const averageScore = calculateRoundedAverage(averages[metric], count);
+    obj[metric] = `${score(averageScore)} ${averageScore}`;
     return obj;
   }, {}),
 }));
