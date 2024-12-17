@@ -2,7 +2,7 @@ name: Run Lighthouse CI on Schedule and Pull Request Merge
 
 on:
   schedule:
-    - cron: "30 1 * * *" # 매일 KST 오전 10:10 (UTC 1:10)
+    - cron: "*/5 * * * *" # 5분마다 실행
   workflow_dispatch:
 
 jobs:
