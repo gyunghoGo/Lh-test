@@ -1,6 +1,8 @@
-name: Run Lighthouse CI on Pull Request Merge
+name: Run Lighthouse CI on Schedule and Pull Request Merge
 
-on: [pull_request]
+on:
+  schedule:
+    - cron: "10 1 * * *" # 매일 KST 오전 10:10 (UTC 1:10)
 
 jobs:
   lhci:
@@ -22,7 +24,7 @@ jobs:
       # - name: Build
       #   run: yarn build
 
-      - name: run Lighthouse CI
+      - name: Run Lighthouse CI
         run: |
           npm install && npm install -g @lhci/cli
           lhci autorun
