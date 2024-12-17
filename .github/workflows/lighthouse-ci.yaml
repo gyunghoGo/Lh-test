@@ -1,6 +1,11 @@
 name: Run Lighthouse CI on Pull Request Merge
 
-on: [pull_request]
+on:
+  # pull_request:
+  #   types: [closed]
+  schedule:
+    - cron: "*/5 * * * *" # 5분마다 실행
+  workflow_dispatch:
 
 jobs:
   lhci:
