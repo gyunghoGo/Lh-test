@@ -1,8 +1,8 @@
 name: Update README Automatically
 
 on:
-  schedule:
-    - cron: "0 2 * * *" # 매일 KST 오전 11시 (UTC 오전 2시)
+  #   schedule:
+  #     - cron: "0 2 * * *" # 매일 KST 오전 11시 (UTC 오전 2시)
   workflow_dispatch: # 수동 실행도 지원
 
 jobs:
